@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Silver Rocks – Contact</title>
+  <meta name="description" content="Contact Silver Rocks Restaurant & Bar in Lapta, Cyprus. Call, WhatsApp, or find us on Instagram." />
+  <meta property="og:title" content="Contact – Silver Rocks Restaurant & Bar" />
+  <meta property="og:description" content="Call, WhatsApp, or find us on Instagram. Located in Lapta, Cyprus." />
+  <meta property="og:image" content="/images/silverrockslogo.png" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="/images/silverrockslogo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="site-logo" href="index.html" aria-label="Go to homepage">
+    <span class="site-logo-img-wrap">
+      <img class="site-logo-img" src="/images/silverrockslogo.png" alt="Silver Rocks logo">
+      <span class="site-logo-fallback">SR</span>
+    </span>
+
+    <span class="site-logo-text">Silver Rocks</span>
+  </a>
+
+  <div class="lang-wrapper">
+    <button class="lang-btn" id="langToggle" aria-haspopup="true" aria-expanded="false">
+      <span id="currentLangLabel">English</span>
+      <span class="caret-small">▾</span>
+    </button>
+
+    <div class="lang-dropdown" id="langDropdown" role="menu" aria-label="Language">
+      <button class="lang-option" data-lang="en" role="menuitem">English</button>
+      <button class="lang-option" data-lang="tr" role="menuitem">Türkçe</button>
+    </div>
+  </div>
+
+  <div class="linklike" id="hamburgerBtn" role="button" tabindex="0" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+    <span class="hamburger"><i></i></span>
+  </div>
+</header>
+
+<main class="contact-wrap">
+
+  <section class="contact-hero">
+    <div class="contact-kicker" data-i18n="contactKicker">Contact</div>
+
+    <h1 class="contact-title" data-i18n="contactTitle">
+      Get in Touch
+    </h1>
+
+    <p class="contact-subtitle" data-i18n="contactSubtitle">
+      Have a question, want to make a reservation, or need directions? Contact Silver Rocks Restaurant &amp; Bar easily.
+    </p>
+  </section>
+
+  <section class="contact-grid">
+
+    <a class="contact-card" href="tel:+905338621902">
+      <div class="contact-icon">☎</div>
+      <div>
+        <h2 data-i18n="phoneTitle">Call Us</h2>
+        <p data-i18n="phoneText">Speak directly with our team.</p>
+        <span>+90 533 862 19 02</span>
+      </div>
+    </a>
+
+    <a class="contact-card" href="https://wa.me/905338621902" target="_blank" rel="noopener">
+      <div class="contact-icon">💬</div>
+      <div>
+        <h2 data-i18n="whatsappTitle">WhatsApp</h2>
+        <p data-i18n="whatsappText">Send us a quick message.</p>
+        <span data-i18n="messageNow">Message Now</span>
+      </div>
+    </a>
+
+    <a class="contact-card" href="https://instagram.com/silverrocks.restaurant" target="_blank" rel="noopener">
+      <div class="contact-icon">📸</div>
+      <div>
+        <h2>Instagram</h2>
+        <p data-i18n="instagramText">Follow us for updates, photos, and specials.</p>
+        <span>@silverrocks.restaurant</span>
+      </div>
+    </a>
+
+  </section>
+
+  <section class="contact-info-panel">
+
+    <div class="contact-info-row">
+      <span class="contact-info-icon">📍</span>
+      <div>
+        <div class="contact-info-label" data-i18n="addressLabel">Address</div>
+        <div class="contact-info-value">Lapta 99440, Cyprus</div>
+      </div>
+    </div>
+
+    <div class="contact-info-row">
+      <span class="contact-info-icon">⏰</span>
+      <div>
+        <div class="contact-info-label" data-i18n="hoursLabel">Opening Hours</div>
+        <div class="contact-info-value">10:00 - 00:00</div>
+      </div>
+    </div>
+
+    <div class="contact-info-row">
+      <span class="contact-info-icon">🍽️</span>
+      <div>
+        <div class="contact-info-label" data-i18n="serviceLabel">Service</div>
+        <div class="contact-info-value" data-i18n="serviceValue">Restaurant menu, cafe menu and pool menu</div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="contact-map-card">
+  <div class="contact-map-content">
+    <h2 data-i18n="directionsTitle">Find Us</h2>
+    <p data-i18n="directionsText">
+      Visit us in Lapta and enjoy food, drinks, and a relaxed atmosphere.
+    </p>
+
+    <div class="contact-map-iframe-wrap">
+      <iframe
+        src="https://www.google.com/maps?q=Silver%20Rocks%20Restaurant%20Lapta%20Cyprus&output=embed"
+        width="100%"
+        height="350"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <p>Developed by <a href="https://www.cytechdigital.com/" target="_blank" rel="noopener noreferrer">Cytech Digital</a></p>
+</footer>
+
+
+<div class="side-menu-overlay" id="sideMenuOverlay" aria-hidden="true"></div>
+
+<aside class="side-menu" id="sideMenu" aria-hidden="true" aria-label="Main navigation">
+  <div class="side-menu-header">
+    <div class="side-menu-title" data-i18n="navMenu">Menu</div>
+    <button class="side-menu-close" id="sideMenuCloseBtn" aria-label="Close menu">✕</button>
+  </div>
+
+  <nav class="side-menu-links">
+    <a href="index.html" class="side-menu-link" data-i18n="navHome">Home</a>
+    <a href="restaurant.html" class="side-menu-link" data-i18n="navRestaurantMenu">Restaurant Menu</a>
+    <a href="cafe.html" class="side-menu-link" data-i18n="navCafeMenu">Cafe Menu</a>
+    <a href="pool.html" class="side-menu-link" data-i18n="navPoolMenu">Pool Menu</a>
+    <a href="about.html" class="side-menu-link" data-i18n="navAbout">About</a>
+    <a href="contact.html" class="side-menu-link active" data-i18n="navContact">Contact</a>
+  </nav>
+</aside>
+
+<script type="module" src="/src/pages.js"></script>
+
+</body>
+</html>

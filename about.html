@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Silver Rocks – About</title>
+  <meta name="description" content="About Silver Rocks Restaurant & Bar – A relaxed seaside restaurant in Lapta, Cyprus serving fresh food, drinks, and a welcoming atmosphere." />
+  <meta property="og:title" content="About – Silver Rocks Restaurant & Bar" />
+  <meta property="og:description" content="A relaxed seaside restaurant in Lapta, Cyprus serving fresh food, drinks, and a welcoming atmosphere." />
+  <meta property="og:image" content="/images/silverrockslogo.png" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="/images/silverrockslogo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="site-logo" href="index.html" aria-label="Go to homepage">
+    <span class="site-logo-img-wrap">
+      <img class="site-logo-img" src="/images/silverrockslogo.png" alt="Silver Rocks logo">
+      <span class="site-logo-fallback">SR</span>
+    </span>
+
+    <span class="site-logo-text">Silver Rocks</span>
+  </a>
+
+  <div class="lang-wrapper">
+    <button class="lang-btn" id="langToggle" aria-haspopup="true" aria-expanded="false">
+      <span id="currentLangLabel">English</span>
+      <span class="caret-small">▾</span>
+    </button>
+
+    <div class="lang-dropdown" id="langDropdown" role="menu" aria-label="Language">
+      <button class="lang-option" data-lang="en" role="menuitem">English</button>
+      <button class="lang-option" data-lang="tr" role="menuitem">Türkçe</button>
+    </div>
+  </div>
+
+  <div class="linklike" id="hamburgerBtn" role="button" tabindex="0" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+    <span class="hamburger"><i></i></span>
+  </div>
+</header>
+
+<main class="about-wrap">
+
+  <section class="about-hero">
+    <div class="about-kicker" data-i18n="aboutKicker">About Us</div>
+
+    <h1 class="about-title" data-i18n="aboutTitle">
+      Silver Rocks Restaurant &amp; Bar
+    </h1>
+
+    <p class="about-subtitle" data-i18n="aboutSubtitle">
+      A relaxed seaside restaurant experience in Lapta, offering fresh food, drinks, and a welcoming atmosphere.
+    </p>
+  </section>
+
+  <section class="about-card">
+    <div class="about-card-content">
+      <h2 data-i18n="storyTitle">Our Story</h2>
+
+      <p data-i18n="storyTextOne">
+        Silver Rocks Restaurant &amp; Bar is a warm and welcoming place where guests can enjoy delicious food, refreshing drinks, and peaceful moments by the sea.
+      </p>
+
+      <p data-i18n="storyTextTwo">
+        Whether you visit us for a family meal, a casual drink, or a sunset dinner, our goal is to make every visit comfortable, enjoyable, and memorable.
+      </p>
+    </div>
+  </section>
+
+  <section class="about-grid">
+
+    <div class="about-feature">
+      <div class="about-icon">🍽️</div>
+      <h3 data-i18n="foodTitle">Fresh Food</h3>
+      <p data-i18n="foodText">
+        From starters to seafood, meat dishes, salads, and desserts, our menu offers something for every taste.
+      </p>
+    </div>
+
+    <div class="about-feature">
+      <div class="about-icon">🍹</div>
+      <h3 data-i18n="drinksTitle">Drinks &amp; Bar</h3>
+      <p data-i18n="drinksText">
+        Enjoy hot drinks, soft drinks, wine, beer, cocktails, and classic bar selections.
+      </p>
+    </div>
+
+    <div class="about-feature">
+      <div class="about-icon">🌊</div>
+      <h3 data-i18n="atmosphereTitle">Relaxed Atmosphere</h3>
+      <p data-i18n="atmosphereText">
+        A comfortable setting for lunch, dinner, celebrations, or simply enjoying time with friends.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="about-info-panel">
+
+    <div class="about-info-row">
+      <span class="about-info-icon">📍</span>
+      <div>
+        <div class="about-info-label" data-i18n="addressLabel">Address</div>
+        <div class="about-info-value">Lapta 99440, Cyprus</div>
+      </div>
+    </div>
+
+    <div class="about-info-row">
+      <span class="about-info-icon">☎</span>
+      <div>
+        <div class="about-info-label" data-i18n="phoneLabel">Phone</div>
+        <a class="about-info-link" href="tel:+905338621902">+90 533 862 19 02</a>
+      </div>
+    </div>
+
+    <div class="about-info-row">
+      <span class="about-info-icon">⏰</span>
+      <div>
+        <div class="about-info-label" data-i18n="hoursLabel">Opening Hours</div>
+        <div class="about-info-value">10:00 - 00:00</div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+<footer class="site-footer">
+  <p>Developed by <a href="https://www.cytechdigital.com/" target="_blank" rel="noopener noreferrer">Cytech Digital</a></p>
+</footer>
+
+
+<div class="side-menu-overlay" id="sideMenuOverlay" aria-hidden="true"></div>
+
+<aside class="side-menu" id="sideMenu" aria-hidden="true" aria-label="Main navigation">
+  <div class="side-menu-header">
+    <div class="side-menu-title" data-i18n="navMenu">Menu</div>
+    <button class="side-menu-close" id="sideMenuCloseBtn" aria-label="Close menu">✕</button>
+  </div>
+
+  <nav class="side-menu-links">
+    <a href="index.html" class="side-menu-link" data-i18n="navHome">Home</a>
+    <a href="restaurant.html" class="side-menu-link" data-i18n="navRestaurantMenu">Restaurant Menu</a>
+    <a href="cafe.html" class="side-menu-link" data-i18n="navCafeMenu">Cafe Menu</a>
+    <a href="pool.html" class="side-menu-link" data-i18n="navPoolMenu">Pool Menu</a>
+    <a href="about.html" class="side-menu-link active" data-i18n="navAbout">About</a>
+    <a href="contact.html" class="side-menu-link" data-i18n="navContact">Contact</a>
+  </nav>
+</aside>
+
+<script type="module" src="/src/pages.js"></script>
+
+</body>
+</html>

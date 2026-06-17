@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login – Silver Rocks</title>
+  <link rel="icon" type="image/png" href="/images/silverrockslogo.png" />
+  <link rel="stylesheet" href="../admin.css" />
+</head>
+<body class="login-page">
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <img class="login-logo" src="/images/silverrockslogo.png" alt="Silver Rocks" />
+      <h1 class="login-title">Admin Panel</h1>
+      <p class="login-sub">Silver Rocks Restaurant &amp; Bar</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" autocomplete="email" required placeholder="admin@example.com" />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••" />
+        </div>
+
+        <p id="loginError" class="login-error" hidden></p>
+
+        <button id="loginBtn" type="submit" class="btn-primary btn-full">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../src/admin/login.js"></script>
+</body>
+</html>

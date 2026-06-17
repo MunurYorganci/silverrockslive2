@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Silver Rocks Menu – Cafe</title>
+  <meta name="description" content="Silver Rocks Restaurant & Bar – Cafe menu with finger foods, drinks, apple pie and cheesecake in Lapta, Cyprus." />
+  <meta property="og:title" content="Silver Rocks – Cafe Menu" />
+  <meta property="og:description" content="Cafe menu with finger foods, drinks, apple pie and cheesecake in Lapta, Cyprus." />
+  <meta property="og:image" content="/images/silverrockslogo.png" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="/images/silverrockslogo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-menu="cafe">
+
+<header class="topbar">
+  <a class="site-logo" href="index.html" aria-label="Go to homepage">
+    <span class="site-logo-img-wrap">
+      <img class="site-logo-img" src="/images/silverrockslogo.png" alt="Silver Rocks logo">
+      <span class="site-logo-fallback">SR</span>
+    </span>
+
+    <span class="site-logo-text">Silver Rocks</span>
+  </a>
+
+  <div class="lang-wrapper">
+    <button class="lang-btn" id="langToggle" aria-haspopup="true" aria-expanded="false">
+      <span id="currentLangLabel">English</span>
+      <span class="caret-small">▾</span>
+    </button>
+
+    <div class="lang-dropdown" id="langDropdown" role="menu" aria-label="Language">
+      <button class="lang-option" data-lang="en" role="menuitem">English</button>
+      <button class="lang-option" data-lang="tr" role="menuitem">Türkçe</button>
+    </div>
+  </div>
+
+  <div class="linklike" id="hamburgerBtn" role="button" tabindex="0" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+    <span class="hamburger"><i></i></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>Silver Rocks Restaurant &amp; Bar</h1>
+
+  <div class="more-info" id="moreInfoBtn" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="infoModal">
+    <span class="info-dot">i</span>
+    <span data-i18n="moreInfo">More Info</span>
+  </div>
+
+  <div class="section-row">
+    <div class="section-menu-switcher">
+      <button class="section-left" id="menuTypeToggle" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="cafeMenu">Cafe Menu</span>
+        <span class="caret"></span>
+      </button>
+
+      <div class="section-dropdown" id="menuTypeDropdown" role="menu" aria-label="Menu Type">
+        <a class="section-option" data-menu-link="restaurant" href="restaurant.html" role="menuitem" data-i18n="restaurant">Restaurant</a>
+        <a class="section-option" data-menu-link="cafe" href="cafe.html" role="menuitem" data-i18n="cafe">Cafe</a>
+        <a class="section-option" data-menu-link="pool" href="pool.html" role="menuitem" data-i18n="pool">Pool</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <div class="chip-strip" id="chipStrip"></div>
+  </div>
+
+  <section class="menu-area">
+    <div class="menu-header sticky-header">
+      <div class="menu-title" id="resultsTitle">All</div>
+      <div class="menu-count" id="resultsCount"></div>
+    </div>
+
+    <div class="menu-loading" id="loadingState">Loading menu…</div>
+    <div class="menu-error"   id="errorState"   hidden></div>
+    <div class="menu-sections" id="menuGrid" hidden></div>
+
+    <div class="empty" id="emptyState" data-i18n="emptyState" hidden>
+      No items found.
+    </div>
+  </section>
+
+</main>
+<footer class="site-footer">
+  <p>Developed by <a href="https://www.cytechdigital.com/" target="_blank" rel="noopener noreferrer">Cytech Digital</a></p>
+</footer>
+
+
+
+<div class="modal-overlay" id="itemModal" aria-hidden="true">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-media">
+      <button class="modal-icon-btn modal-back" id="modalCloseBtn" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="modal-icon-btn modal-share" id="modalShareBtn" aria-label="Share">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M16 8a3 3 0 1 0-2.8-4H13a3 3 0 0 0 3 4ZM6 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm10-4-8 4m8 6-8-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <img id="modalImg" alt="" />
+    </div>
+    <div class="modal-body">
+      <div class="modal-top">
+        <div class="modal-titlewrap">
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-sub" id="modalSub"></div>
+          <div class="modal-price" id="modalPrice"></div>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-badge" id="modalCategoryBadge"></div>
+      </div>
+      <div class="modal-spacer"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay info-overlay" id="infoModal" aria-hidden="true">
+  <div class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <button class="info-close" id="infoCloseBtn" aria-label="Close">✕</button>
+
+    <h2 id="infoModalTitle">Silver Rocks Restaurant &amp; Bar</h2>
+
+    <div class="info-list">
+      <div class="info-row">
+        <span class="info-emoji">📍</span>
+        <div class="info-text">
+          <div class="info-label" data-i18n="addressLabel">Address</div>
+          <a class="info-link" href="https://www.google.com/maps/search/Silver+Rocks+Restaurant+Lapta+Cyprus" target="_blank" rel="noopener noreferrer">Lapta 99440, Cyprus</a>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span class="info-emoji">☎</span>
+        <div class="info-text">
+          <div class="info-label" data-i18n="phoneLabel">Phone</div>
+          <a class="info-link" href="tel:+905338621902">+90 533 862 19 02</a>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span class="info-emoji">⏰</span>
+        <div class="info-text">
+          <div class="info-label" data-i18n="hoursLabel">Opening Hours</div>
+          <div class="info-value">10:00 - 00:00</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span class="info-emoji">📸</span>
+        <div class="info-text">
+          <div class="info-label">Instagram</div>
+          <a class="info-link" href="https://instagram.com/silverrocks.restaurant" target="_blank" rel="noopener noreferrer">@silverrocks.restaurant</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="side-menu-overlay" id="sideMenuOverlay" aria-hidden="true"></div>
+
+<aside class="side-menu" id="sideMenu" aria-hidden="true" aria-label="Main navigation">
+  <div class="side-menu-header">
+    <div class="side-menu-title" data-i18n="navMenu">Menu</div>
+    <button class="side-menu-close" id="sideMenuCloseBtn" aria-label="Close menu">✕</button>
+  </div>
+
+  <nav class="side-menu-links">
+    <a href="index.html" class="side-menu-link" data-i18n="navHome">Home</a>
+    <a href="restaurant.html" class="side-menu-link" data-i18n="navRestaurantMenu">Restaurant Menu</a>
+    <a href="cafe.html" class="side-menu-link active" data-i18n="navCafeMenu">Cafe Menu</a>
+    <a href="pool.html" class="side-menu-link" data-i18n="navPoolMenu">Pool Menu</a>
+    <a href="about.html" class="side-menu-link" data-i18n="navAbout">About</a>
+    <a href="contact.html" class="side-menu-link" data-i18n="navContact">Contact</a>
+  </nav>
+</aside>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+    <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<script type="module" src="/src/menu.js"></script>
+</body>
+</html>

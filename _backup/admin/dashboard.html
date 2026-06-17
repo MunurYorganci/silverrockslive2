@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Silver Rocks Admin</title>
+  <link rel="icon" type="image/png" href="/images/silverrockslogo.png" />
+  <link rel="stylesheet" href="../admin.css" />
+</head>
+<body class="dashboard-page">
+
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <img src="/images/silverrockslogo.png" alt="Silver Rocks" class="sidebar-logo" />
+      <div>
+        <div class="sidebar-title">Silver Rocks</div>
+        <div class="sidebar-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Menu Filter</div>
+      <a href="#" class="filter-link active" data-filter="all">All Items</a>
+      <a href="#" class="filter-link" data-filter="restaurant">Restaurant</a>
+      <a href="#" class="filter-link" data-filter="cafe">Cafe</a>
+      <a href="#" class="filter-link" data-filter="pool">Pool</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="/" target="_blank" class="view-site-link">↗ View Live Menu</a>
+      <button id="logoutBtn" class="btn-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-toolbar">
+      <h1 class="admin-page-title">Menu Items</h1>
+      <button id="addItemBtn" class="btn-primary">+ Add Item</button>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Menu</th>
+            <th>Price</th>
+            <th>Active</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="itemsTbody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- ITEM FORM MODAL -->
+<div class="modal-overlay" id="itemFormModal">
+  <div class="admin-modal-box">
+    <div class="admin-modal-header">
+      <h2 id="formTitle">Add Item</h2>
+      <button id="cancelBtn" class="admin-modal-close" aria-label="Close">✕</button>
+    </div>
+
+    <form id="itemForm" novalidate>
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Name (English) <span class="req">*</span></label>
+          <input type="text" name="name_en" required placeholder="e.g. House Soup" />
+        </div>
+
+        <div class="field">
+          <label>Name (Turkish)</label>
+          <input type="text" name="name_tr" placeholder="e.g. Günün Çorbası" />
+        </div>
+
+        <div class="field">
+          <label>Description (English)</label>
+          <textarea name="desc_en" rows="2" placeholder="Short description…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Description (Turkish)</label>
+          <textarea name="desc_tr" rows="2" placeholder="Kısa açıklama…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Category <span class="req">*</span></label>
+          <input type="text" name="category" required placeholder="e.g. Başlangıçlar" list="categoryList" />
+          <datalist id="categoryList">
+            <option value="Başlangıçlar"></option>
+            <option value="Tavuk Menüsü"></option>
+            <option value="Balık Menüsü"></option>
+            <option value="Fix Menü"></option>
+            <option value="Et Menüsü"></option>
+            <option value="Salatalar"></option>
+            <option value="Makarnalar"></option>
+            <option value="Hamburgerler"></option>
+            <option value="Pideler"></option>
+            <option value="Omletler"></option>
+            <option value="Tatlılar"></option>
+            <option value="Alkolsüz İçecekler"></option>
+            <option value="Kokteyller"></option>
+            <option value="Bira"></option>
+            <option value="Viski Şişe"></option>
+            <option value="Viski"></option>
+            <option value="Rakı"></option>
+            <option value="Şarap"></option>
+            <option value="Sıcak İçecekler"></option>
+            <option value="The Finger Foods"></option>
+          </datalist>
+        </div>
+
+        <div class="field">
+          <label>Menu Type <span class="req">*</span></label>
+          <select name="menu_type" required>
+            <option value="restaurant">Restaurant</option>
+            <option value="cafe">Cafe</option>
+            <option value="pool">Pool</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Price <span class="req">*</span></label>
+          <input type="text" name="price" required placeholder="e.g. 360₺" />
+        </div>
+
+        <div class="field field--full">
+          <label>Item Photo</label>
+          <div id="currentImgWrap" class="current-img-wrap" hidden>
+            <img id="currentImg" src="" alt="Current photo" class="img-preview" />
+            <span class="current-img-label">Current photo — upload a new one to replace</span>
+          </div>
+          <input id="imageInput" type="file" name="image" accept="image/png,image/jpeg,image/webp" />
+          <div id="imagePreview"></div>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="cancelBtn2" class="btn-secondary">Cancel</button>
+        <button type="submit" id="saveBtn" class="btn-primary">Add Item</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" aria-live="polite"></div>
+
+<script type="module" src="../src/admin/dashboard.js"></script>
+</body>
+</html>
