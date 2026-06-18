@@ -8,6 +8,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync }  from 'fs'
+import ws               from 'ws'
 import { fileURLToPath } from 'url'
 import { dirname, join }  from 'path'
 
@@ -30,7 +31,8 @@ if (!supabaseUrl || !serviceRoleKey) {
 }
 
 const supabase = createClient(supabaseUrl, serviceRoleKey, {
-  auth: { persistSession: false }
+  auth: { persistSession: false },
+  realtime: { transport: ws }
 })
 
 // Import menu data

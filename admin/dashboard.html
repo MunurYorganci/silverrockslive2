@@ -9,6 +9,18 @@
 </head>
 <body class="dashboard-page">
 
+<!-- MOBILE TOP BAR -->
+<div class="mobile-topbar">
+  <div class="mobile-brand">
+    <img src="/images/silverrockslogo.png" alt="Silver Rocks" class="mobile-brand-logo" />
+    <span class="mobile-brand-name">Silver Rocks</span>
+  </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile backdrop) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="admin-layout">
 
   <!-- SIDEBAR -->
@@ -48,8 +60,8 @@
           <tr>
             <th>Image</th>
             <th>Name</th>
-            <th>Category</th>
-            <th>Menu</th>
+            <th class="col-category">Category</th>
+            <th class="col-menu">Menu</th>
             <th>Price</th>
             <th>Active</th>
             <th>Actions</th>

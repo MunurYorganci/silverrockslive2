@@ -225,8 +225,9 @@ body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; color
   background: #f1f5f9; border: 1px dashed var(--border);
 }
 
-.item-name-cell { font-weight: 600; }
-.item-sub-cell  { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.item-name-cell  { font-weight: 600; }
+.item-sub-cell   { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.item-mobile-meta { display: none; }
 
 .menu-badge {
   display: inline-block; padding: 3px 9px; border-radius: 999px;
@@ -338,10 +339,153 @@ form { padding: 20px 24px 24px; }
 .toast--error    { background: var(--danger); }
 
 /* ================================
+   MOBILE TOP BAR
+   ================================ */
+.mobile-topbar {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 56px;
+  background: var(--sidebar-bg);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 800;
+  border-bottom: 1px solid #1e293b;
+}
+
+.mobile-brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.mobile-brand-logo { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; }
+.mobile-brand-name { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+
+.mobile-menu-btn {
+  width: 36px; height: 36px; border: none; border-radius: 8px;
+  background: #1e293b; color: #94a3b8;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 20px; line-height: 1;
+}
+.mobile-menu-btn:hover { background: #334155; color: #f1f5f9; }
+
+/* Overlay behind sidebar on mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 850;
+}
+.sidebar-overlay.open { display: block; }
+
+/* ================================
    RESPONSIVE
    ================================ */
-@media (max-width: 700px) {
-  .admin-sidebar { display: none; }
-  .form-grid { grid-template-columns: 1fr; }
-  .admin-main { padding: 16px; }
+@media (max-width: 768px) {
+
+  /* Mobile top bar */
+  .mobile-topbar  { display: flex; }
+  .dashboard-page { padding-top: 56px; }
+
+  /* Sidebar slide-in drawer */
+  .admin-sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    z-index: 900;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    width: 260px; min-width: 260px;
+  }
+  .admin-sidebar.open { transform: translateX(0); }
+
+  /* Main */
+  .admin-main       { padding: 16px 12px 64px; }
+  .admin-toolbar    { margin-bottom: 14px; }
+  .admin-page-title { font-size: 18px; }
+
+  /* ── TABLE → flex row cards ──
+     Must set display:block on table/tbody first to break the browser's
+     table formatting context, otherwise display:flex on tr is ignored.
+     Visible cells: [img] [name+meta — grows] [toggle] [edit][delete]  */
+  .admin-table-wrap  { overflow: hidden; }
+  .admin-table       { display: block; width: 100%; }
+  .admin-table tbody { display: block; }
+  .admin-table thead { display: none; }
+
+  .admin-table tbody tr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .admin-table tbody tr:last-child { border-bottom: none; }
+
+  /* All cells: reset table-cell styling */
+  .admin-table tbody td {
+    padding: 0;
+    border: none;
+    flex-shrink: 0;
+    background: transparent !important;
+  }
+
+  /* Hide Category, Menu, Price */
+  .admin-table .col-category,
+  .admin-table .col-menu,
+  .admin-table .td-price { display: none !important; }
+
+  /* Image: fixed 40px */
+  .admin-table .td-img { flex: 0 0 40px; }
+  .table-thumb,
+  .table-thumb-empty  { width: 38px; height: 38px; border-radius: 8px; }
+
+  /* Name cell (2nd td): fills remaining space */
+  .admin-table tbody td:nth-child(2) { flex: 1; min-width: 0; overflow: hidden; }
+  .item-name-cell {
+    font-size: 13px; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item-sub-cell { display: none; }
+  .item-mobile-meta {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px; color: var(--sub);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item-mobile-meta .menu-badge {
+    display: inline-block; font-size: 10px;
+    padding: 1px 5px; vertical-align: middle;
+  }
+  .item-mobile-meta strong { color: var(--accent); font-weight: 700; }
+
+  /* Toggle cell (6th td in tr) */
+  .admin-table tbody td:nth-child(6) { flex: 0 0 40px; }
+  .toggle { width: 36px; height: 20px; }
+  .toggle-slider::after { width: 14px; height: 14px; }
+  .toggle-input:checked + .toggle-slider::after { transform: translateX(16px); }
+
+  /* Actions cell */
+  .admin-table .td-actions {
+    flex: 0 0 auto;
+    display: flex !important;
+    gap: 4px;
+    align-items: center;
+  }
+  .btn-icon     { width: 30px; height: 30px; }
+  .btn-icon svg { width: 14px; height: 14px; }
+
+  /* ── FORM MODAL: slides up from bottom ── */
+  .modal-overlay  { padding: 0; align-items: flex-end; }
+  .admin-modal-box {
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh; width: 100%;
+  }
+  .admin-modal-header { padding: 16px 16px 0; }
+  form { padding: 16px 16px 20px; }
+  .form-grid { grid-template-columns: 1fr; gap: 12px; }
+  .form-actions { flex-direction: column-reverse; gap: 8px; }
+  .form-actions .btn-primary,
+  .form-actions .btn-secondary {
+    width: 100%; justify-content: center; padding: 13px; font-size: 15px;
+  }
+
+  /* Toast */
+  .toast { left: 16px; right: 16px; bottom: 16px; text-align: center; }
 }

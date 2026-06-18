@@ -79,9 +79,10 @@ function renderTable() {
       <td>
         <div class="item-name-cell">${escHtml(item.name_en)}</div>
         <div class="item-sub-cell">${escHtml(item.name_tr)}</div>
+        <div class="item-mobile-meta">${escHtml(item.category)} &middot; <span class="menu-badge menu-badge--${item.menu_type}">${item.menu_type}</span> &middot; <strong>${escHtml(item.price)}</strong></div>
       </td>
-      <td>${escHtml(item.category)}</td>
-      <td><span class="menu-badge menu-badge--${item.menu_type}">${item.menu_type}</span></td>
+      <td class="col-category">${escHtml(item.category)}</td>
+      <td class="col-menu"><span class="menu-badge menu-badge--${item.menu_type}">${item.menu_type}</span></td>
       <td class="td-price">${escHtml(item.price)}</td>
       <td>
         <label class="toggle" title="${item.active ? 'Click to deactivate' : 'Click to activate'}">
@@ -263,8 +264,31 @@ filterLinks.forEach(link => {
     activeFilter = link.dataset.filter
     filterLinks.forEach(l => l.classList.toggle('active', l.dataset.filter === activeFilter))
     renderTable()
+    closeMobileSidebar()
   })
 })
+
+// -----------------------------
+// MOBILE SIDEBAR
+// -----------------------------
+const sidebar        = document.querySelector('.admin-sidebar')
+const sidebarOverlay = document.getElementById('sidebarOverlay')
+const mobileMenuBtn  = document.getElementById('mobileMenuBtn')
+
+function openMobileSidebar() {
+  sidebar?.classList.add('open')
+  sidebarOverlay?.classList.add('open')
+  document.body.style.overflow = 'hidden'
+}
+
+function closeMobileSidebar() {
+  sidebar?.classList.remove('open')
+  sidebarOverlay?.classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+mobileMenuBtn?.addEventListener('click', openMobileSidebar)
+sidebarOverlay?.addEventListener('click', closeMobileSidebar)
 
 // -----------------------------
 // LOGOUT
