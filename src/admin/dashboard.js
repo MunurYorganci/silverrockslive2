@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase.js'
+import Sortable    from 'sortablejs'
 
 // -----------------------------
 // AUTH GUARD
@@ -65,18 +66,19 @@ function renderTable() {
     : allItems.filter(i => i.menu_type === activeFilter)
 
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#94a3b8;">No items found.</td></tr>`
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;">No items found.</td></tr>`
     return
   }
 
   tbody.innerHTML = filtered.map(item => `
     <tr data-id="${item.id}">
+      <td class="td-drag"><span class="drag-handle">⠿</span></td>
       <td class="td-img">
         ${item.image_url
           ? `<img src="${escHtml(item.image_url)}" alt="" class="table-thumb">`
           : `<div class="table-thumb-empty"></div>`}
       </td>
-      <td>
+      <td class="td-name">
         <div class="item-name-cell">${escHtml(item.name_en)}</div>
         <div class="item-sub-cell">${escHtml(item.name_tr)}</div>
         <div class="item-mobile-meta">${escHtml(item.category)} &middot; <span class="menu-badge menu-badge--${item.menu_type}">${item.menu_type}</span> &middot; <strong>${escHtml(item.price)}</strong></div>
@@ -84,7 +86,7 @@ function renderTable() {
       <td class="col-category">${escHtml(item.category)}</td>
       <td class="col-menu"><span class="menu-badge menu-badge--${item.menu_type}">${item.menu_type}</span></td>
       <td class="td-price">${escHtml(item.price)}</td>
-      <td>
+      <td class="td-toggle">
         <label class="toggle" title="${item.active ? 'Click to deactivate' : 'Click to activate'}">
           <input type="checkbox" class="toggle-input" data-id="${item.id}" ${item.active ? 'checked' : ''}>
           <span class="toggle-slider"></span>
@@ -289,6 +291,48 @@ function closeMobileSidebar() {
 
 mobileMenuBtn?.addEventListener('click', openMobileSidebar)
 sidebarOverlay?.addEventListener('click', closeMobileSidebar)
+
+// -----------------------------
+// DRAG-AND-DROP REORDER (SortableJS — works on desktop + mobile touch)
+// -----------------------------
+Sortable.create(tbody, {
+  handle:    '.drag-handle',
+  animation: 0,
+  onEnd(evt) {
+    if (evt.oldIndex === evt.newIndex) return
+
+    // Sync allItems to the new DOM order of visible rows
+    const visibleIds = [...tbody.querySelectorAll('tr[data-id]')].map(tr => tr.dataset.id)
+
+    if (activeFilter === 'all') {
+      allItems.sort((a, b) => visibleIds.indexOf(a.id) - visibleIds.indexOf(b.id))
+    } else {
+      // Only the filtered subset changed order; splice them back into allItems
+      const reordered = visibleIds.map(id => allItems.find(i => i.id === id))
+      let fi = 0
+      for (let i = 0; i < allItems.length; i++) {
+        if (allItems[i].menu_type === activeFilter) allItems[i] = reordered[fi++]
+      }
+    }
+
+    saveOrder()
+  }
+})
+
+async function saveOrder() {
+  const updates = allItems
+    .map((item, i) => ({ item, i }))
+    .filter(({ item, i }) => item.sort_order !== i)
+    .map(({ item, i }) => {
+      item.sort_order = i
+      return supabase.from('menu_items').update({ sort_order: i }).eq('id', item.id)
+    })
+  if (!updates.length) return
+  const results = await Promise.all(updates)
+  const failed  = results.find(r => r.error)
+  if (failed) toast('Failed to save order: ' + failed.error.message, 'error')
+  else toast('Order saved.')
+}
 
 // -----------------------------
 // LOGOUT

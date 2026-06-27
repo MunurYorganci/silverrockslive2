@@ -228,11 +228,9 @@ function render() {
             <div class="card-left">
               <div class="item-name">${escapeHtml(name)}</div>
               <div class="item-desc">${escapeHtml(desc)}</div>
-            </div>
-            <div class="card-right">
-              ${imgOk ? `<div class="thumb"><img src="${escapeHtml(i.image)}" alt="${escapeHtml(name)}" loading="lazy"></div>` : ''}
               <div class="price">${escapeHtml(i.price)}</div>
             </div>
+            ${imgOk ? `<div class="card-right"><div class="thumb"><img src="${escapeHtml(i.image)}" alt="${escapeHtml(name)}" loading="lazy"></div></div>` : ''}
           </div>`
         }).join('')}
       </div>`
