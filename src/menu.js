@@ -282,6 +282,22 @@ function findItemById(id) {
   return items.find(x => String(x.id) === String(id))
 }
 
+// Self-heal images that fail to load (e.g. CDN propagation lag right after
+// an admin upload) by retrying with a fresh URL instead of staying broken.
+function retryImageLoad(img) {
+  const attempts = Number(img.dataset.retry || 0)
+  if (attempts >= 3) return
+  img.dataset.retry = String(attempts + 1)
+  const base = img.src.split('?')[0]
+  setTimeout(() => { img.src = `${base}?retry=${Date.now()}` }, (attempts + 1) * 1500)
+}
+
+menuGrid.addEventListener('error', e => {
+  if (e.target.tagName === 'IMG') retryImageLoad(e.target)
+}, true)
+
+modalImg.addEventListener('error', () => retryImageLoad(modalImg))
+
 menuGrid.addEventListener('click', e => {
   const card = e.target.closest('[data-open]')
   if (card) openItemModal(card.getAttribute('data-open'))
@@ -306,7 +322,7 @@ function openItemModal(id) {
   modalCategoryBadge.textContent = tCategory(item.category || '')
 
   const imgOk = item.image && item.image.trim() !== ''
-  if (imgOk) { modalImg.src = item.image; modalImg.alt = tItem(item, 'name'); modalImg.hidden = false }
+  if (imgOk) { modalImg.dataset.retry = '0'; modalImg.src = item.image; modalImg.alt = tItem(item, 'name'); modalImg.hidden = false }
   else        { modalImg.removeAttribute('src'); modalImg.alt = ''; modalImg.hidden = true }
 
   itemModal.classList.add('open')

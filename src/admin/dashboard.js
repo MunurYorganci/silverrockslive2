@@ -236,7 +236,7 @@ formEl.addEventListener('submit', async e => {
     const path = `${editingId || crypto.randomUUID()}.${ext}`
     const { error: upErr } = await supabase.storage.from('item-images').upload(path, file, { upsert: true })
     if (upErr) { toast('Image upload failed: ' + upErr.message, 'error'); saveBtn.disabled = false; saveBtn.textContent = editingId ? 'Save Changes' : 'Add Item'; return }
-    fields.image_url = supabase.storage.from('item-images').getPublicUrl(path).data.publicUrl
+    fields.image_url = `${supabase.storage.from('item-images').getPublicUrl(path).data.publicUrl}?v=${Date.now()}`
   }
 
   let error
