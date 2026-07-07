@@ -13,6 +13,7 @@ if (!session) { location.href = '/admin/login.html' }
 let allItems     = []
 let activeFilter = 'all'
 let editingId    = null      // null = adding new, string = editing existing
+let removeImage  = false     // true = user cleared the existing photo
 
 // -----------------------------
 // DOM
@@ -29,6 +30,7 @@ const imageInput     = document.getElementById('imageInput')
 const imagePreview   = document.getElementById('imagePreview')
 const currentImgWrap = document.getElementById('currentImgWrap')
 const currentImg     = document.getElementById('currentImg')
+const removeImgBtn   = document.getElementById('removeImgBtn')
 const logoutBtn      = document.getElementById('logoutBtn')
 const toastEl        = document.getElementById('toast')
 
@@ -121,6 +123,12 @@ function escHtml(str) {
   return String(str ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')
 }
 
+// Extract the storage object path from a public URL, stripping any ?v= cache-bust param
+function storagePathFromUrl(url) {
+  const after = String(url || '').split('/item-images/')[1]
+  return after ? after.split('?')[0] : null
+}
+
 // -----------------------------
 // TOGGLE ACTIVE
 // -----------------------------
@@ -140,7 +148,7 @@ async function deleteItem(id) {
 
   // Delete image from storage if exists
   if (item?.image_url) {
-    const path = item.image_url.split('/item-images/')[1]
+    const path = storagePathFromUrl(item.image_url)
     if (path) await supabase.storage.from('item-images').remove([path])
   }
 
@@ -156,6 +164,7 @@ async function deleteItem(id) {
 // -----------------------------
 function openAddForm() {
   editingId = null
+  removeImage = false
   formTitle.textContent = 'Add Item'
   formEl.reset()
   imagePreview.innerHTML = ''
@@ -168,6 +177,7 @@ function openEditForm(id) {
   const item = allItems.find(i => i.id === id)
   if (!item) return
   editingId = id
+  removeImage = false
   formTitle.textContent = 'Edit Item'
 
   formEl.name_en.value    = item.name_en    || ''
@@ -207,8 +217,19 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && formModal.
 imageInput.addEventListener('change', () => {
   const file = imageInput.files[0]
   if (!file) { imagePreview.innerHTML = ''; return }
+  // Picking a new file overrides a pending removal
+  removeImage = false
   const url = URL.createObjectURL(file)
   imagePreview.innerHTML = `<img src="${url}" alt="preview" class="img-preview">`
+})
+
+// Remove existing photo
+removeImgBtn?.addEventListener('click', () => {
+  removeImage = true
+  imageInput.value = ''
+  imagePreview.innerHTML = ''
+  if (currentImgWrap) currentImgWrap.hidden = true
+  toast('Photo will be removed when you save.')
 })
 
 // -----------------------------
@@ -237,6 +258,12 @@ formEl.addEventListener('submit', async e => {
     const { error: upErr } = await supabase.storage.from('item-images').upload(path, file, { upsert: true })
     if (upErr) { toast('Image upload failed: ' + upErr.message, 'error'); saveBtn.disabled = false; saveBtn.textContent = editingId ? 'Save Changes' : 'Add Item'; return }
     fields.image_url = `${supabase.storage.from('item-images').getPublicUrl(path).data.publicUrl}?v=${Date.now()}`
+  } else if (editingId && removeImage) {
+    // User cleared the photo without picking a new one — delete from storage and null the column
+    const existing = allItems.find(i => i.id === editingId)
+    const path = storagePathFromUrl(existing?.image_url)
+    if (path) await supabase.storage.from('item-images').remove([path])
+    fields.image_url = null
   }
 
   let error

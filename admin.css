@@ -313,7 +313,16 @@ form { padding: 20px 24px 24px; }
   margin-bottom: 10px; padding: 10px; background: #f8fafc;
   border-radius: 8px; border: 1px solid var(--border);
 }
-.current-img-label { font-size: 12px; color: var(--sub); }
+.current-img-label { font-size: 12px; color: var(--sub); flex: 1; }
+
+.btn-remove-img {
+  flex-shrink: 0;
+  background: #fef2f2; color: var(--danger);
+  border: 1px solid #fecaca; border-radius: 6px;
+  padding: 6px 12px; font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-remove-img:hover { background: #fee2e2; }
 
 .img-preview {
   max-width: 100%; max-height: 160px;
