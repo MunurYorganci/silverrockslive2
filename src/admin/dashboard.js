@@ -13,7 +13,7 @@ if (!session) { location.href = '/admin/login.html' }
 let allItems     = []
 let activeFilter = 'all'
 let editingId    = null      // null = adding new, string = editing existing
-let removeImage  = false     // true = user cleared the existing photo
+let removeImage  = false     // true = photo marked for removal, applied on Save
 
 // -----------------------------
 // DOM
@@ -217,19 +217,18 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && formModal.
 imageInput.addEventListener('change', () => {
   const file = imageInput.files[0]
   if (!file) { imagePreview.innerHTML = ''; return }
-  // Picking a new file overrides a pending removal
-  removeImage = false
   const url = URL.createObjectURL(file)
   imagePreview.innerHTML = `<img src="${url}" alt="preview" class="img-preview">`
 })
 
-// Remove existing photo
+// Remove existing photo — marks it for removal; actual delete happens on Save.
+// Cancel/close discards the change and the photo stays.
 removeImgBtn?.addEventListener('click', () => {
   removeImage = true
   imageInput.value = ''
   imagePreview.innerHTML = ''
   if (currentImgWrap) currentImgWrap.hidden = true
-  toast('Photo will be removed when you save.')
+  toast('Fotoğraf, kaydettiğinizde kaldırılacak.')
 })
 
 // -----------------------------
@@ -259,7 +258,7 @@ formEl.addEventListener('submit', async e => {
     if (upErr) { toast('Image upload failed: ' + upErr.message, 'error'); saveBtn.disabled = false; saveBtn.textContent = editingId ? 'Save Changes' : 'Add Item'; return }
     fields.image_url = `${supabase.storage.from('item-images').getPublicUrl(path).data.publicUrl}?v=${Date.now()}`
   } else if (editingId && removeImage) {
-    // User cleared the photo without picking a new one — delete from storage and null the column
+    // Photo was marked for removal and no new file chosen — delete from storage and null the column
     const existing = allItems.find(i => i.id === editingId)
     const path = storagePathFromUrl(existing?.image_url)
     if (path) await supabase.storage.from('item-images').remove([path])
