@@ -278,6 +278,7 @@ body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; color
   border-radius: 14px;
   width: min(640px, 100%);
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
   box-shadow: 0 24px 64px rgba(0,0,0,.25);
   display: flex;
@@ -286,7 +287,9 @@ body { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; color
 
 .admin-modal-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 24px 0;
+  padding: 20px 24px 12px;
+  position: sticky; top: 0; z-index: 3;
+  background: var(--surface);
 }
 .admin-modal-header h2 { font-size: 18px; font-weight: 800; }
 .admin-modal-close {
@@ -501,9 +504,11 @@ form { padding: 20px 24px 24px; }
   .modal-overlay  { padding: 0; align-items: flex-end; }
   .admin-modal-box {
     border-radius: 20px 20px 0 0;
-    max-height: 92vh; width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    width: 100%;
   }
-  .admin-modal-header { padding: 16px 16px 0; }
+  .admin-modal-header { padding: 16px 16px 12px; }
   form { padding: 16px 16px 20px; }
   .form-grid { grid-template-columns: 1fr; gap: 12px; }
   .form-actions { flex-direction: column-reverse; gap: 8px; }
