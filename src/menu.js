@@ -18,6 +18,7 @@ let sectionEls           = []
 let rafPending           = false
 let activeModalItemId    = null
 let lastFocusedEl        = null
+let sharedItemHandled    = false
 
 // -----------------------------
 // DOM
@@ -351,16 +352,24 @@ function closeItemModal() {
 
 modalCloseBtn?.addEventListener('click', closeItemModal)
 itemModal?.addEventListener('click', e => { if (e.target === itemModal) closeItemModal() })
+function shareUrlForItem(item) {
+  const url = new URL(location.href)
+  url.hash = ''
+  url.searchParams.set('item', item.id)
+  return url.toString()
+}
+
 modalShareBtn?.addEventListener('click', async () => {
   if (!activeModalItemId) return
   const item = findItemById(activeModalItemId)
   if (!item) return
   const name = tItem(item, 'name')
+  const url  = shareUrlForItem(item)
   try {
-    if (navigator.share) await navigator.share({ title: name, text: `${name} - ${item.price}`, url: location.href })
+    if (navigator.share) await navigator.share({ title: name, text: `${name} - ${item.price}`, url })
     else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(`${name} - ${item.price}`)
-      alert(currentLang === 'tr' ? 'Panoya kopyalandı ✅' : 'Copied to clipboard ✅')
+      await navigator.clipboard.writeText(url)
+      alert(currentLang === 'tr' ? 'Bağlantı panoya kopyalandı ✅' : 'Link copied to clipboard ✅')
     }
   } catch { /* user cancelled */ }
 })
@@ -495,6 +504,27 @@ async function loadMenu() {
   items = data.map(rowToItem)
   showLoading(false)
   applyLanguage(currentLang)
+  maybeOpenSharedItem()
+}
+
+// If the page was opened via a shared link (?item=<id>), scroll to that item
+// and open its modal — once per page load, so live re-fetches don't reopen it.
+function maybeOpenSharedItem() {
+  if (sharedItemHandled) return
+  const id = new URLSearchParams(location.search).get('item')
+  if (!id) return
+  sharedItemHandled = true
+  const item = findItemById(id)
+  if (!item) return
+
+  const section = document.getElementById(slugify(item.category))
+  section?.scrollIntoView({ behavior: 'auto', block: 'start' })
+  openItemModal(id)
+
+  // Clean the ?item param from the URL so closing/refresh doesn't reopen it
+  const url = new URL(location.href)
+  url.searchParams.delete('item')
+  history.replaceState(null, '', url.pathname + url.search + url.hash)
 }
 
 // Real-time: re-fetch whenever admin changes anything
